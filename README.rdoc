@@ -1,13 +1,20 @@
+=BRANCHULATOR!
+
 Branchulator is a simple script that you can add to your PS1 to remind you what branch you're in in git.  It's written in Ruby.
 
 Add it to your PS1 environment variable in .profile (or whichever bash config you use) like this:
-```
-\$(path/to/branchulator/branchulator.rb)
-```
+
+  \$(path/to/branchulator/branchulator.rb)
+
 
 So my PS1 looks like this:
-```
-export PS1="\$(~/Development/bashtime/bashtime.sh) \$(~/Development/branchulator/branchulator.rb)\h:\w> "
-```
+
+  export PS1="\$(~/Development/bashtime/bashtime.sh) \$(~/Development/branchulator/branchulator.rb)\h:\w> "
+
+...And you get colorful output like this when you're in a directory with a git repo:
+
+  git:master euclid:~/Development/branchulator>
+
+The branch name will be red if there are merge conflicts, yellow if there are uncommitted changes and green if everything's up to date.  Neat, huh?
 
 FWIW, this code probably sucks!  Use it at your own risk, it be MIT licensed.  All glory to the hyponotoad.
