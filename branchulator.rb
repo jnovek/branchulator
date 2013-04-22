@@ -12,14 +12,14 @@ def merge_conflict?
   `git status 2>&1` =~ /conflict/
 end
 
-def origin_status(branch)
+def origin_diff_count(branch)
   # First make sure that there's a remote branch
-  return "" if `git rev-list origin/master..HEAD 2>&1` =~ /fatal/
+  return "" if `git rev-list origin/#{branch}..HEAD 2>&1` =~ /fatal/
   # Check for remote changes
-  remote_changes = `git rev-list HEAD..origin/master`.chomp.split("\n").count
+  remote_changes = `git rev-list HEAD..origin/#{branch}`.chomp.split("\n").count
   return "[-#{remote_changes}]" if remote_changes > 0
   # Check for local changes
-  local_changes = `git rev-list origin/master..HEAD`.chomp.split("\n").count
+  local_changes = `git rev-list origin/#{branch}..HEAD`.chomp.split("\n").count
   return "[+#{local_changes}]" if local_changes > 0
   # OK, looks like we're square!
   "[0]"
@@ -50,7 +50,7 @@ unless fatal?
     print "\e[0m"
   else
     # output the actual git repo
-    print "git:" + branch + origin_status(branch) + " "
+    print "git:" + branch + origin_diff_count(branch) + " "
   end
 
 end
