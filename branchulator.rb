@@ -1,19 +1,8 @@
 #!/usr/bin/ruby
-class String
 
-  def red
-    "\e[31m#{self}\e[0m"
-  end
-
-  def green
-    "\e[32m#{self}\e[0m"
-  end
-
-  def yellow
-    "\e[33m#{self}\e[0m"
-  end
-
-end
+RED = "\e[31m"
+GREEN = "\e[32m"
+YELLOW = "\e[33m"
 
 def needs_commit?
   `git status 2>&1` !~ /nothing to commit/
@@ -23,13 +12,31 @@ def merge_conflict?
   `git status 2>&1` =~ /conflict/
 end
 
+def origin_status(branch)
+  ""
+end
+
+# Program body
+# Don't do this if we're not in a working repo
 unless `git rev-parse --git-dir 2>&1` =~ /fatal/i
-  text = " git:" + `git rev-parse --abbrev-ref HEAD 2>&1`.chomp + " "
-  if merge_conflict?
-    print text.red
-  elsif needs_commit?
-    print text.yellow
+
+  branch = `git rev-parse --abbrev-ref HEAD 2>&1`.chomp
+
+  if ARGV[0] == 'color'
+    # For coloring
+    if merge_conflict?
+      print RED
+    elsif needs_commit?
+      print YELLOW
+    else
+      print GREEN
+    end  
+  elsif ARGV[0] == 'decolor'
+    # For decoloring
+    print "\e[0m"
   else
-    print text.green
+    # output the actual git repo
+    print "git:" + branch + origin_status(branch) + " "
   end
+
 end
