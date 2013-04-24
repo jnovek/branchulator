@@ -10,7 +10,7 @@ Add it to your PS1 environment variable in .profile (or whichever bash config yo
 So my PS1 looks like this:
 
   BR_DIR="~/Development/branchulator/helpers"
-  export PS1="\$(~/Development/bashtime/bashtime.sh) \$(~/Development/branchulator/branchulator.rb)\h:\w> "
+  export PS1="\[\$($BR_DIR/c.sh)\]\$($BR_DIR/b.sh)\[\$($BR_DIR/d.sh)\]\h:\w> "
 
 ...And you get colorful output like this when you're in a directory with a git repo:
 
